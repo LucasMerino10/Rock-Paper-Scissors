@@ -1,41 +1,37 @@
-import Counter from "./components/Counter";
-import logo from "./assets/logo.svg";
-
-import "./App.css";
+import { useNavigate } from "react-router-dom";
+import { useSocketContext } from "./contexts/SocketContext";
+import "./App.scss";
 
 function App() {
+  const { socket, username, setUsername, room } = useSocketContext();
+  const navigate = useNavigate();
+
+  const handleChange = (event) => {
+    setUsername(event.target.value);
+  };
+  const joinRoom = () => {
+    if (username !== "") {
+      socket.emit("join room", { pseudo: username, gameRoom: room });
+      navigate("/game");
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React !</p>
-
-        <Counter />
-
-        <p>
-          Edit <code>App.jsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {" | "}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
-    </div>
+    <section className="gameMenu">
+      <label htmlFor="username" className="gameMenu__label">
+        Username
+      </label>
+      <input
+        id="username"
+        type="text"
+        value={username}
+        onChange={handleChange}
+        placeholder="Username"
+      />
+      <button type="button" onClick={joinRoom} aria-label="Play">
+        Play
+      </button>
+    </section>
   );
 }
 

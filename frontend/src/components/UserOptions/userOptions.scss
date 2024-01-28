@@ -1,0 +1,32 @@
+@mixin button {
+  background-size: cover;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background-color: white;
+}
+
+.userOptions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+
+  &__button {
+    @include button;
+
+    &:nth-child(1) {
+      background-image: url(./src/assets/rock.svg);
+    }
+    &:nth-child(2) {
+      background-image: url(./src/assets/paper.svg);
+    }
+    &:nth-child(3) {
+      background-image: url(./src/assets/scissors.svg);
+    }
+  }
+}
+
+.disabled {
+  opacity: 0.3;
+}
